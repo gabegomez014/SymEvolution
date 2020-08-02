@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeciesController : MonoBehaviour
+public class BasicSimpleBirthRatesSpeciesController : MonoBehaviour
 {
-    private EnvironmentController environmentController;
+    private BasicSimpleBirthRatesEnvironmentController environmentController;
     private MeshCollider _environmentCollider;
     private BoxCollider _speciesCollider;
     private Rigidbody _rb;
@@ -120,14 +120,14 @@ public class SpeciesController : MonoBehaviour
 
                 GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, speciesHolder);
 
-                spawn.GetComponent<SpeciesController>().SetEnvironment(_environmentCollider, speciesHolder, environmentController, NEdge, SEdge, EEdge, WEdge);
+                spawn.GetComponent<BasicSimpleBirthRatesSpeciesController>().SetEnvironment(_environmentCollider, speciesHolder, environmentController, NEdge, SEdge, EEdge, WEdge);
 
                 yield return new WaitForSeconds(0.01f);
             }
         }
     }
 
-    public void SetEnvironment(MeshCollider meshCollider, Transform speciesHolder, EnvironmentController controller, Transform NEdge, Transform SEdge, Transform EEdge, Transform WEdge)
+    public void SetEnvironment(MeshCollider meshCollider, Transform speciesHolder, BasicSimpleBirthRatesEnvironmentController controller, Transform NEdge, Transform SEdge, Transform EEdge, Transform WEdge)
     {
         this.environmentController = controller;
         _environmentCollider = meshCollider;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnvironmentController : MonoBehaviour
+public class BasicSimpleBirthRatesEnvironmentController : MonoBehaviour
 {
     // To set the species that can be spawned
     public GameObject[] species;
@@ -93,7 +93,7 @@ public class EnvironmentController : MonoBehaviour
 
             GameObject spawn = Instantiate(species, randomPosition, Quaternion.identity, speciesHolder);
 
-            spawn.GetComponent<SpeciesController>().SetEnvironment(_meshCollider, speciesHolder, this, NEdge, SEdge, EEdge, WEdge);
+            spawn.GetComponent<BasicSimpleBirthRatesSpeciesController>().SetEnvironment(_meshCollider, speciesHolder, this, NEdge, SEdge, EEdge, WEdge);
 
             yield return new WaitForSeconds(_spawnPauser);
         }
