@@ -7,17 +7,19 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
     public GameObject grassTile;
     public GameObject wolf;
     public GameObject sheep;
+    public int sheepAmount = 10;
+    public int wolfAmount = 4;
 
     private float tileOffset;
     private BoxCollider grassBoxCollider;
     private MeshCollider meshCollider;
+    private string mode;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        mode = "Wolf-Sheep";
         meshCollider = GetComponent<MeshCollider>();
-
     }
 
     // Update is called once per frame
@@ -49,18 +51,25 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
             for (float j = zTopLeft; j > -zTopLeft; j -= tileZScale)
             {
                 GameObject tile = Instantiate(grassTile, transform);
+                tile.GetComponent<BasicGrassController>().SetMode(this.mode);
 
                 Vector3 tilePosition = new Vector3(i + xTileOffset, tile.transform.position.y, j - zTileOffset);
                 tile.transform.localPosition = tilePosition;
             }
         }
-        
 
+        for (int i = 0; i < sheepAmount; i++)
+        {
+            GameObject sheepSpawn = Instantiate(sheep, transform);
 
-        //Vector3 tilePosition = new Vector3(xTopLeft + tileOffset, tile.transform.position.y, zTopLeft - tileOffset);
+            sheepSpawn.transform.position = new Vector3(xTopRight / 2, sheepSpawn.transform.position.y, zTopLeft / 2);
+        }
 
-        //Debug.Log("Tile position is " + tilePosition);
+    }
 
-        //tile.transform.localPosition = tilePosition;
+    public void SetMode(string mode)
+    {
+        this.mode = mode;
+        // Going to need to give it to the grass tiles if they are already spawned in.
     }
 }
