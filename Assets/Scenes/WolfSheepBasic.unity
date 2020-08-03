@@ -202,7 +202,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 44484776}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7612769036131351924}
+        m_MethodName: SetMode
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Wolf-Sheep
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &44484776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +357,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &616924471
 GameObject:
@@ -1255,7 +1266,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1910291041}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7612769036131351924}
+        m_MethodName: SetMode
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Wolf-Sheep-Grass
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1910291041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,7 +1387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7612769036131351923
 GameObject:
@@ -1403,6 +1425,8 @@ MonoBehaviour:
     type: 3}
   wolf: {fileID: 4733271503530535686, guid: c02f2207d6cbbea47a52f9599cb6aa40, type: 3}
   sheep: {fileID: 4410888617049917153, guid: 1d961981a067a694e9963fac6822f5ef, type: 3}
+  sheepAmount: 10
+  wolfAmount: 4
 --- !u!4 &7612769036131351928
 Transform:
   m_ObjectHideFlags: 0
@@ -1416,7 +1440,7 @@ Transform:
   m_Children:
   - {fileID: 1337536567}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &7612769036131351933
 MeshCollider:
