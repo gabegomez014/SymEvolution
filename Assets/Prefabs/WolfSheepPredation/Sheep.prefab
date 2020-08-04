@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7043088316981993107}
   m_Layer: 0
   m_Name: Sheep
-  m_TagString: Untagged
+  m_TagString: Sheep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,3 +125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   rotationEpsilon: 45
+  maxEnergy: 50
+  energyConsumptionRate: 5
+  energyConsumptionTime: 2

@@ -65,6 +65,13 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
             sheepSpawn.transform.position = new Vector3(xTopRight / 2, sheepSpawn.transform.position.y, zTopLeft / 2);
         }
 
+        for (int i = 0; i < wolfAmount; i++)
+        {
+            GameObject wolfSpawn = Instantiate(wolf, transform);
+
+            wolfSpawn.transform.position = new Vector3(-xTopRight / 2, wolfSpawn.transform.position.y, zTopLeft / 2);
+        }
+
     }
 
     public void SetMode(string mode)

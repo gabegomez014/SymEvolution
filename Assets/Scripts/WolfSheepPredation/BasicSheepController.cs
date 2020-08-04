@@ -14,11 +14,13 @@ public class BasicSheepController : MonoBehaviour
     private bool _canMove;
     private float currentEnergy;
     private float currentEnergyConsumptionTime;
+    private bool eaten;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        eaten = false;
         _rb = GetComponent<Rigidbody>();
         currentEnergy = maxEnergy;
         currentEnergyConsumptionTime = 0;
@@ -27,6 +29,11 @@ public class BasicSheepController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (eaten)
+        {
+            Destroy(gameObject);
+        }
+
         if (_rb.velocity.y == 0)
         {
             _canMove = true;
@@ -94,8 +101,7 @@ public class BasicSheepController : MonoBehaviour
                 {
                     currentEnergy += grassController.Eaten();
                 }
-                
-
+               
             }
         }
 
@@ -103,5 +109,12 @@ public class BasicSheepController : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 1000, Color.white);
         }
+    }
+
+    public float Eaten()
+    {
+        eaten = true;
+        return currentEnergy;
+        
     }
 }
