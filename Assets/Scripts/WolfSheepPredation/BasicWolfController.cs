@@ -18,13 +18,21 @@ public class BasicWolfController : MonoBehaviour
     private Transform sheepTracking;
     private bool hunting;
 
+    public float generationTime;
+    [Range(1, 10)]
+    public float fertilityRate = 2.2f;
+    private float currentTimeUntilBirth;
+    private BasicWolfSheepEnvironment environment;
+
     // Start is called before the first frame update
     void Start()
     {
+        environment = transform.parent.GetComponent<BasicWolfSheepEnvironment>();
         hunting = false;
         _rb = GetComponent<Rigidbody>();
         currentEnergy = maxEnergy;
         currentEnergyConsumptionTime = 0;
+        environment.IncreaseSpeciesAmount();
     }
 
     // Update is called once per frame
@@ -67,6 +75,14 @@ public class BasicWolfController : MonoBehaviour
 
                 this.transform.position = Vector3.Lerp(currentPosition, nextPosition, step);
             }
+
+            currentTimeUntilBirth += Time.deltaTime;
+
+            if (currentTimeUntilBirth >= generationTime)
+            {
+                StartCoroutine(GiveBirth());
+                currentTimeUntilBirth -= generationTime;
+            }
         }
 
         currentEnergyConsumptionTime += Time.deltaTime;
@@ -80,6 +96,12 @@ public class BasicWolfController : MonoBehaviour
             {
                 hunting = true;
             }
+        }
+
+        if (currentEnergy <= 0)
+        {
+            environment.DecrementSpeciesAmount();
+            Destroy(gameObject);
         }
     }
 
@@ -118,6 +140,43 @@ public class BasicWolfController : MonoBehaviour
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+        }
+    }
+
+    IEnumerator GiveBirth()
+    {
+        float weightResult = Random.value;
+
+        float probablity = fertilityRate - Mathf.Floor(fertilityRate);
+
+        int birthAmount;
+
+        if (weightResult <= probablity)
+        {
+            birthAmount = (int)Mathf.Floor(fertilityRate);
+        }
+
+        else
+        {
+            birthAmount = (int)Mathf.Ceil(fertilityRate);
+        }
+
+        for (int i = 0; i < birthAmount; i++)
+        {
+            if (!environment.IsFull())
+            {
+
+                Vector3 randomPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+                GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, transform.parent);
+
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            else
+            {
+                yield return null;
+            }
         }
     }
 }

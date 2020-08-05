@@ -128,3 +128,5 @@ MonoBehaviour:
   maxEnergy: 50
   energyConsumptionRate: 5
   energyConsumptionTime: 2
+  generationTime: 3
+  fertilityRate: 1.2

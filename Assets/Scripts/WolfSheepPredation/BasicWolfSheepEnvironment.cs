@@ -9,23 +9,21 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
     public GameObject sheep;
     public int sheepAmount = 10;
     public int wolfAmount = 4;
+    public int carryingCapacity = 50;
 
     private float tileOffset;
     private BoxCollider grassBoxCollider;
     private MeshCollider meshCollider;
     private string mode;
+    private bool isFull;
+    private int currentSpeciesAmount;
 
     // Start is called before the first frame update
     void Start()
     {
+        currentSpeciesAmount = 0;
         mode = "Wolf-Sheep";
         meshCollider = GetComponent<MeshCollider>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Setup()
@@ -63,6 +61,7 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
             GameObject sheepSpawn = Instantiate(sheep, transform);
 
             sheepSpawn.transform.position = new Vector3(xTopRight / 2, sheepSpawn.transform.position.y, zTopLeft / 2);
+            currentSpeciesAmount += 1;
         }
 
         for (int i = 0; i < wolfAmount; i++)
@@ -70,6 +69,8 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
             GameObject wolfSpawn = Instantiate(wolf, transform);
 
             wolfSpawn.transform.position = new Vector3(-xTopRight / 2, wolfSpawn.transform.position.y, zTopLeft / 2);
+
+            currentSpeciesAmount += 1;
         }
 
     }
@@ -78,5 +79,30 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
     {
         this.mode = mode;
         // Going to need to give it to the grass tiles if they are already spawned in.
+    }
+
+    public void IncreaseSpeciesAmount()
+    {
+        currentSpeciesAmount += 1;
+
+        if (currentSpeciesAmount >= carryingCapacity)
+        {
+            isFull = true;
+        }
+    }
+
+    public void DecrementSpeciesAmount()
+    {
+        currentSpeciesAmount -= 1;
+
+        if (currentSpeciesAmount < carryingCapacity)
+        {
+            isFull = false;
+        }
+    }
+
+    public bool IsFull()
+    {
+        return isFull;
     }
 }

@@ -16,14 +16,21 @@ public class BasicSheepController : MonoBehaviour
     private float currentEnergyConsumptionTime;
     private bool eaten;
 
+    public float generationTime;
+    [Range(1, 10)]
+    public float fertilityRate = 2.2f;
+    private float currentTimeUntilBirth;
+    private BasicWolfSheepEnvironment environment;
 
     // Start is called before the first frame update
     void Start()
     {
+        environment = transform.parent.GetComponent<BasicWolfSheepEnvironment>();
         eaten = false;
         _rb = GetComponent<Rigidbody>();
         currentEnergy = maxEnergy;
         currentEnergyConsumptionTime = 0;
+        environment.IncreaseSpeciesAmount();
     }
 
     // Update is called once per frame
@@ -31,6 +38,7 @@ public class BasicSheepController : MonoBehaviour
     {
         if (eaten)
         {
+            environment.DecrementSpeciesAmount();
             Destroy(gameObject);
         }
 
@@ -49,11 +57,18 @@ public class BasicSheepController : MonoBehaviour
         }
 
         currentEnergyConsumptionTime += Time.deltaTime;
+        currentTimeUntilBirth += Time.deltaTime;
 
         if (currentEnergyConsumptionTime >= energyConsumptionTime)
         {
             currentEnergy -= energyConsumptionRate;
             currentEnergyConsumptionTime = 0;
+        }
+
+        if (currentTimeUntilBirth >= generationTime)
+        {
+            StartCoroutine(GiveBirth());
+            currentTimeUntilBirth -= generationTime;
         }
     }
 
@@ -114,7 +129,47 @@ public class BasicSheepController : MonoBehaviour
     public float Eaten()
     {
         eaten = true;
+
         return currentEnergy;
         
+    }
+
+    IEnumerator GiveBirth()
+    {
+        float weightResult = Random.value;
+
+        float probablity = fertilityRate - Mathf.Floor(fertilityRate);
+
+        int birthAmount;
+
+        if (weightResult <= probablity)
+        {
+            birthAmount = (int)Mathf.Floor(fertilityRate);
+        }
+
+        else
+        {
+            birthAmount = (int)Mathf.Ceil(fertilityRate);
+        }
+
+        for (int i = 0; i < birthAmount; i++)
+        {
+
+            if (!environment.IsFull())
+            {
+
+                Vector3 randomPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+                GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, transform.parent);
+
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            else
+            {
+                yield return null;
+            }
+            
+        }
     }
 }
