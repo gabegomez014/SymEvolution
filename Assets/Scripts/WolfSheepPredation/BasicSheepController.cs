@@ -47,6 +47,11 @@ public class BasicSheepController : MonoBehaviour
             _canMove = true;
         }
 
+        if (_rb.velocity.y != 0)
+        {
+            _canMove = false;
+        }
+
         if (_canMove)
         {
             float step = speed * Time.deltaTime; // calculate distance to move
@@ -70,6 +75,13 @@ public class BasicSheepController : MonoBehaviour
             StartCoroutine(GiveBirth());
             currentTimeUntilBirth -= generationTime;
         }
+
+        if (currentEnergy <= 0)
+        {
+            environment.DecrementSpeciesAmount();
+            Destroy(gameObject);
+        }
+
     }
 
     private void FixedUpdate()
@@ -106,7 +118,6 @@ public class BasicSheepController : MonoBehaviour
                 BasicGrassController grassController = grass.GetComponent<BasicGrassController>();
                 if (grassController == null)
                 {
-                    Debug.Log("Grass controller is null");
                     return;
                 }
                 float energyGain = grassController.EnergyCheck();
@@ -158,11 +169,13 @@ public class BasicSheepController : MonoBehaviour
             if (!environment.IsFull())
             {
 
-                Vector3 randomPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                float randomX = Random.Range(transform.position.x - 10, transform.position.x + 10);
+                float randomZ = Random.Range(transform.position.z - 10, transform.position.z + 10);
+                Vector3 randomPosition = new Vector3(randomX, transform.position.y, randomZ);
 
                 GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, transform.parent);
 
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.5f);
             }
 
             else

@@ -43,6 +43,11 @@ public class BasicWolfController : MonoBehaviour
             _canMove = true;
         }
 
+        if (_rb.velocity.y != 0)
+        {
+            _canMove = false;
+        }
+
         if (_canMove)
         {
             if (hunting && sheepTracking != null)
@@ -132,7 +137,6 @@ public class BasicWolfController : MonoBehaviour
             if (hit.collider.tag == "Sheep" && hunting && hit.distance < 5)
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
-                Debug.Log("on top of the sheep");
                 currentEnergy = sheepTracking.GetComponent<BasicSheepController>().Eaten();
                 sheepTracking = null;
             }
@@ -166,11 +170,13 @@ public class BasicWolfController : MonoBehaviour
             if (!environment.IsFull())
             {
 
-                Vector3 randomPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                float randomX = Random.Range(transform.position.x - 10, transform.position.x + 10);
+                float randomZ = Random.Range(transform.position.z - 10, transform.position.z + 10);
+                Vector3 randomPosition = new Vector3(randomX, transform.position.y, randomZ);
 
                 GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, transform.parent);
 
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.5f);
             }
 
             else

@@ -56,13 +56,53 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
             }
         }
 
+        StartCoroutine(SpawnSheep());
+
+        StartCoroutine(SpawnWolves());
+
+    }
+
+    IEnumerator SpawnSheep()
+    {
+        // Model to base the rest off of
+        GameObject exampleTile = Instantiate(grassTile);
+        BoxCollider box = exampleTile.GetComponent<BoxCollider>();
+        float xTileOffset = box.size.x / 2;
+        float zTileOffset = box.size.z / 2;
+        float tileXScale = box.size.x;
+        float tileZScale = box.size.z;
+        exampleTile.SetActive(false);
+
+        float xLocalScale = transform.localScale.x;
+        float zLocalScale = transform.localScale.z;
+        float xTopRight = transform.localScale.x / 2;
+        float zTopLeft = transform.localScale.z / 2; 
+
         for (int i = 0; i < sheepAmount; i++)
         {
             GameObject sheepSpawn = Instantiate(sheep, transform);
 
             sheepSpawn.transform.position = new Vector3(xTopRight / 2, sheepSpawn.transform.position.y, zTopLeft / 2);
             currentSpeciesAmount += 1;
+            yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    IEnumerator SpawnWolves()
+    {
+        // Model to base the rest off of
+        GameObject exampleTile = Instantiate(grassTile);
+        BoxCollider box = exampleTile.GetComponent<BoxCollider>();
+        float xTileOffset = box.size.x / 2;
+        float zTileOffset = box.size.z / 2;
+        float tileXScale = box.size.x;
+        float tileZScale = box.size.z;
+        exampleTile.SetActive(false);
+
+        float xLocalScale = transform.localScale.x;
+        float zLocalScale = transform.localScale.z;
+        float xTopRight = transform.localScale.x / 2;
+        float zTopLeft = transform.localScale.z / 2;
 
         for (int i = 0; i < wolfAmount; i++)
         {
@@ -71,8 +111,8 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
             wolfSpawn.transform.position = new Vector3(-xTopRight / 2, wolfSpawn.transform.position.y, zTopLeft / 2);
 
             currentSpeciesAmount += 1;
+            yield return new WaitForSeconds(0.5f);
         }
-
     }
 
     public void SetMode(string mode)
@@ -94,7 +134,6 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
     public void DecrementSpeciesAmount()
     {
         currentSpeciesAmount -= 1;
-
         if (currentSpeciesAmount < carryingCapacity)
         {
             isFull = false;
@@ -104,5 +143,13 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
     public bool IsFull()
     {
         return isFull;
+    }
+
+    public void ResetEnvironment()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
     }
 }
