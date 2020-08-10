@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4485441293908000875}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5a27d23a646db4da0afc2dcdd7a799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyAmount: 10
+  energyAmount: 4
   regenerationTime: 20
   dirtMat: {fileID: 2100000, guid: 1279fb072ce4648429c2ad2c250cfedf, type: 2}
   grassMat: {fileID: 2100000, guid: 6d46258b024ddb240b1528412c350a7f, type: 2}

@@ -36,6 +36,12 @@ public class BasicSheepController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < -20)
+        {
+            environment.DecrementSpeciesAmount();
+            Destroy(gameObject);
+        }
+
         if (eaten)
         {
             environment.DecrementSpeciesAmount();
@@ -96,9 +102,19 @@ public class BasicSheepController : MonoBehaviour
             {
                 Vector3 newRotation = transform.eulerAngles;
 
-                float turnedAroundY = Random.Range(-newRotation.y - rotationEpsilon, -newRotation.y + rotationEpsilon);
+                if (newRotation.y < 0)
+                {
+                    newRotation.y += 180;
+                }
 
-                newRotation.y = turnedAroundY;
+                else
+                {
+                    newRotation.y -= 180;
+                }
+
+                float randomizedY = Random.Range(newRotation.y - rotationEpsilon, newRotation.y + rotationEpsilon);
+
+                newRotation.y = randomizedY;
 
                 transform.rotation = Quaternion.Euler(newRotation);
             }
@@ -165,23 +181,13 @@ public class BasicSheepController : MonoBehaviour
 
         for (int i = 0; i < birthAmount; i++)
         {
-
-            if (!environment.IsFull())
-            {
-
                 float randomX = Random.Range(transform.position.x - 10, transform.position.x + 10);
                 float randomZ = Random.Range(transform.position.z - 10, transform.position.z + 10);
                 Vector3 randomPosition = new Vector3(randomX, transform.position.y, randomZ);
 
                 GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, transform.parent);
 
-                yield return new WaitForSeconds(0.5f);
-            }
-
-            else
-            {
-                yield return null;
-            }
+                yield return new WaitForSeconds(0.01f);
             
         }
     }

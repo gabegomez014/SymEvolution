@@ -57,10 +57,10 @@ public class BasicWolfController : MonoBehaviour
                 Vector3 targetDirection = sheepTracking.position - transform.position;
 
                 // The step size is equal to speed times frame time.
-                float singleStep = (speed /2) * Time.deltaTime;
+                float singleStep = (speed / 2) * Time.deltaTime;
 
                 // Rotate the forward vector towards the target direction by one step
-                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.5f);
 
                 // Draw a ray pointing at our target in
                 Debug.DrawRay(transform.position, newDirection, Color.red);
@@ -122,23 +122,33 @@ public class BasicWolfController : MonoBehaviour
                 sheepTracking = hit.collider.transform;
             }
 
-            if (hit.distance <= 5)
-            {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                Vector3 newRotation = transform.eulerAngles;
-
-                float turnedAroundY = Random.Range(-newRotation.y - rotationEpsilon, -newRotation.y + rotationEpsilon);
-
-                newRotation.y = turnedAroundY;
-
-                transform.rotation = Quaternion.Euler(newRotation);
-            }
-
             if (hit.collider.tag == "Sheep" && hunting && hit.distance < 5)
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
                 currentEnergy = sheepTracking.GetComponent<BasicSheepController>().Eaten();
                 sheepTracking = null;
+            }
+
+            if (hit.distance <= 5 && hit.collider.tag == "Walls")
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                Vector3 newRotation = transform.eulerAngles;
+
+                if (newRotation.y < 0)
+                {
+                    newRotation.y += 180;
+                }
+
+                else
+                {
+                    newRotation.y -= 180;
+                }
+
+                float randomizedY = Random.Range(newRotation.y - rotationEpsilon, newRotation.y + rotationEpsilon);
+
+                newRotation.y = randomizedY;
+
+                transform.rotation = Quaternion.Euler(newRotation);
             }
         }
         else
@@ -167,9 +177,7 @@ public class BasicWolfController : MonoBehaviour
 
         for (int i = 0; i < birthAmount; i++)
         {
-            if (!environment.IsFull())
-            {
-
+    
                 float randomX = Random.Range(transform.position.x - 10, transform.position.x + 10);
                 float randomZ = Random.Range(transform.position.z - 10, transform.position.z + 10);
                 Vector3 randomPosition = new Vector3(randomX, transform.position.y, randomZ);
@@ -177,12 +185,7 @@ public class BasicWolfController : MonoBehaviour
                 GameObject spawn = Instantiate(this.gameObject, randomPosition, Quaternion.identity, transform.parent);
 
                 yield return new WaitForSeconds(0.5f);
-            }
-
-            else
-            {
-                yield return null;
-            }
+            
         }
     }
 }
