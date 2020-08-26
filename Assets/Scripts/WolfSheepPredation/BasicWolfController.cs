@@ -60,7 +60,7 @@ public class BasicWolfController : MonoBehaviour
                 float singleStep = (speed / 2) * Time.deltaTime;
 
                 // Rotate the forward vector towards the target direction by one step
-                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.5f);
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, singleStep);
 
                 // Draw a ray pointing at our target in
                 Debug.DrawRay(transform.position, newDirection, Color.red);
@@ -69,7 +69,9 @@ public class BasicWolfController : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(newDirection);
 
                 float step = speed * Time.deltaTime; // calculate distance to move
-                transform.position = Vector3.MoveTowards(transform.position, sheepTracking.position, step);
+                //transform.position = Vector3.MoveTowards(transform.position, sheepTracking.position, step);
+                //transform.rotation = Vector3.RotateTowards(transform.rotation, )
+                transform.position = Vector3.Lerp(transform.position, sheepTracking.position, step);
             }
 
             else
@@ -118,20 +120,20 @@ public class BasicWolfController : MonoBehaviour
         {
             if (hit.collider.tag == "Sheep" && hunting && hit.distance < 20)
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+                //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
                 sheepTracking = hit.collider.transform;
             }
 
             if (hit.collider.tag == "Sheep" && hunting && hit.distance < 5)
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+                //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
                 currentEnergy = sheepTracking.GetComponent<BasicSheepController>().Eaten();
                 sheepTracking = null;
             }
 
             if (hit.distance <= 5 && hit.collider.tag == "Walls")
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 Vector3 newRotation = transform.eulerAngles;
 
                 if (newRotation.y < 0)
@@ -153,7 +155,7 @@ public class BasicWolfController : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
         }
     }
 

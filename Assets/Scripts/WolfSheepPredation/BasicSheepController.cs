@@ -97,7 +97,7 @@ public class BasicSheepController : MonoBehaviour
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             if (hit.distance <= 5)
             {
                 Vector3 newRotation = transform.eulerAngles;
@@ -127,7 +127,7 @@ public class BasicSheepController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out grassHit, 10f))
         {
             
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * grassHit.distance, Color.yellow);
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * grassHit.distance, Color.yellow);
             if (grassHit.distance <= 10)
             {
                 GameObject grass = grassHit.collider.gameObject;

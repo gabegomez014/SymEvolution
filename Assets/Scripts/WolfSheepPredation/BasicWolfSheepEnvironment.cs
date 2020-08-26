@@ -30,18 +30,20 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
     {
         
         // Model to base the rest off of
-        GameObject exampleTile = Instantiate(grassTile);
+        GameObject exampleTile = Instantiate(grassTile, transform);
         BoxCollider box = exampleTile.GetComponent<BoxCollider>();
-        float xTileOffset = box.size.x / 2;
-        float zTileOffset = box.size.z / 2;
-        float tileXScale = box.size.x;
-        float tileZScale = box.size.z;
+        float xTileOffset = exampleTile.transform.localScale.x / 2;
+        float zTileOffset = exampleTile.transform.localScale.z / 2;
+        float tileXScale = exampleTile.transform.localScale.x;
+        float tileZScale = exampleTile.transform.localScale.z;
         exampleTile.SetActive(false);
 
         float xLocalScale = transform.localScale.x;
         float zLocalScale = transform.localScale.z;
         float xTopRight = transform.localScale.x / 2;
         float zTopLeft = transform.localScale.z / 2;
+
+        Debug.Log("tile scale is " + tileXScale);
 
         // Withinn this we can add code that changes the likelihood of grass spawning on a patch
         for (float i = -xTopRight; i < xTopRight; i += tileXScale)
@@ -59,7 +61,6 @@ public class BasicWolfSheepEnvironment : MonoBehaviour
         StartCoroutine(SpawnSheep());
 
         StartCoroutine(SpawnWolves());
-
     }
 
     IEnumerator SpawnSheep()
